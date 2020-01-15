@@ -31,3 +31,17 @@ school_info <- metd %>%
   my_readxl() %>% 
   pluck(1)
 
+
+# Import Shapefile --------------------------------------------------------
+library(sp)
+library(rgdal)
+library(sf)
+
+unzip(here::here("data", "shp", metd$data_file[metd$name == "phu_shp"]), exdir = here::here("data", "shp"))
+
+sp <- rgdal::readOGR(here::here("data", "shp"))
+
+my_sf <- sf::st_as_sf(sp)
+
+school_xy <- school_info %>% select(latitude, longitude)
+
